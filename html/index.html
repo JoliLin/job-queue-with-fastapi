@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Async Example</title>
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/loading.css">
+</head>
+
+<body>
+
+<div class="container">  
+    <!--
+    <div class="left-button">
+        <a href="dashboard.html" target="_blank">
+            <button type="button">Dashboard</button>
+        </a>
+    </div>
+    --!>
+    <h1 class="section-title">Async</h1>
+
+    <form id="dataForm" onsubmit="handleSubmit(event)" enctype="multipart/form-data" >
+        <input id="data" name="data" required>
+	    <button type="submit" id="submit-button">Submit</button>
+    </form>
+
+    <br>
+    <div id="responseResult"></div>
+    
+    <div id="responseMessage" class="response-message success">
+    <span class="icon">✔️</span>
+    <span class="message-text">Your request was successful!</span>
+    <button class="close-btn" onclick="this.parentElement.style.display='none';">✖️</button></div>
+
+</div>
+</body>
+<script src="js/index.js"></script>
+</html>
