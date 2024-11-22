@@ -1,15 +1,22 @@
-FROM python:3.11-slim
+FROM python:3.11-slim AS base
 
 WORKDIR /app
 
 COPY requirements.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
+FROM base AS app1
+
 COPY app/ ./app/
 COPY html/ ./html/
 COPY jq/ ./jq/
+COPY test/ ./test/
 
-EXPOSE 5566
-EXPOSE 8080
+CMD ["sh", "-c", "python app/app.py"]
 
-CMD ["sh", "-c", "python -m uvicorn app.app:app --host 0.0.0.0 --port 5566 & python -m http.server --directory html 8080"]
+FROM base AS app2
+
+COPY app/ ./app/
+COPY html/ ./html/
+
+CMD ["sh", "-c", "python app/app_web.py"]

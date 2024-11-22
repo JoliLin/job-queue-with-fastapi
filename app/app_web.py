@@ -2,17 +2,15 @@ import pathlib
 import sys
 
 cur = pathlib.Path(__file__).resolve().parent
-sys.path.append('{}/'.format(cur.parent))
-sys.path.append('{}/app'.format(cur.parent))
 
 import os
 import uvicorn
 
 from dotenv import load_dotenv
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
-
-from app_async import router as router_async
+from starlette.responses import FileResponse
 
 load_dotenv(dotenv_path=".env")
 load_dotenv()
@@ -29,17 +27,18 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(router_async)
 
+app.mount("/", StaticFiles(directory="{}/html".format(cur.parent), html=True), name="ui")
 
-def main():
-    uvicorn.run(
-        'app:app',
-        host='0.0.0.0',
-        port=int(os.environ['BACK_PORT']),
-        reload=True,
-    )
+@app.get("/")
+async def main():
+    return FileResponse("{}/html/index.html".format(cur))
 
 
 if __name__ == '__main__':
-    main()
+    uvicorn.run(
+        'app_web:app',
+        host='0.0.0.0',
+        port=int(os.environ['WEB_PORT']),
+        reload=True,
+    )

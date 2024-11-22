@@ -22,9 +22,9 @@ async function handleSubmit(event) {
 
         const { task_id } = await response.json();
 
-        const socket = new WebSocket(`ws://localhost:5566/api-async/ws/${task_id}`);
+        const socket = new WebSocket(`ws://0.0.0.0:5566/api-async/ws/${task_id}`);
         socket.onmessage = function(event) {
-            //console.log("job fin:", event.data); 
+            console.log("job fin:", event.data); 
             showResult(event.data)
             socket.close();
             document.body.removeChild(loader);
